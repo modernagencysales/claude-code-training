@@ -397,6 +397,25 @@ export default function ModulePage() {
                   Don&apos;t accept code you don&apos;t understand. Ask Claude to explain. Ask for
                   alternatives. This is a collaboration, not delegation.
                 </p>
+
+                <h2>Turbo Mode: --dangerously-skip-permissions</h2>
+                <p>
+                  By default, Claude Code asks for permission before creating files or running commands.
+                  Once you&apos;re comfortable, you can skip these prompts for faster workflows:
+                </p>
+                <pre><code>claude --dangerously-skip-permissions</code></pre>
+                <p>
+                  This lets Claude execute actions immediately without confirmation. Use it when:
+                </p>
+                <ul>
+                  <li>You trust the task and know what Claude will do</li>
+                  <li>You&apos;re iterating quickly on a project</li>
+                  <li>You have git set up as a safety net (so you can undo)</li>
+                </ul>
+                <p>
+                  <strong>Pro tip:</strong> Always have <code>git init</code> run before using turbo mode,
+                  so you can <code>git checkout .</code> to undo any unwanted changes.
+                </p>
               </div>
             )}
 

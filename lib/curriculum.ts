@@ -1452,6 +1452,211 @@ export const modules: Module[] = [
           'Save working versions frequently with Git commits',
         ],
       },
+      {
+        id: '6-3',
+        title: 'Turbo Mode: Skip Permissions',
+        description: 'Learn to use --dangerously-skip-permissions for faster workflows',
+        type: 'project',
+        context: 'By default, Claude Code asks for permission before writing files, running commands, or making changes. This is safe but can slow you down when you trust what Claude is doing. The --dangerously-skip-permissions flag lets Claude work without asking.',
+        instructions: [
+          'Understand what permissions Claude normally asks for:',
+          '  - Writing or modifying files',
+          '  - Creating new files',
+          '  - Running shell commands',
+          '  - Making network requests',
+          'Run Claude Code with the flag: claude --dangerously-skip-permissions',
+          'Notice how Claude now executes actions immediately without confirmation prompts',
+          'Try a simple task: "Create a folder called turbo-test with three files: index.html, style.css, and app.js"',
+          'Watch how Claude creates everything in one smooth flow without stopping to ask',
+          'Important: Only use this flag when you TRUST what Claude will do',
+          'Exit and try without the flag to see the difference in workflow',
+        ],
+        expectedOutcome: 'You understand when and how to use --dangerously-skip-permissions for faster development.',
+        successCriteria: [
+          'You\'ve run Claude Code with --dangerously-skip-permissions',
+          'You\'ve observed the difference in workflow (no permission prompts)',
+          'You understand the tradeoff: speed vs. safety',
+          'You know when it\'s appropriate to use this flag',
+        ],
+        exampleOutput: '$ claude --dangerously-skip-permissions\n> Create a folder called turbo-test with index.html, style.css, and app.js\n✓ Created turbo-test/\n✓ Created turbo-test/index.html\n✓ Created turbo-test/style.css\n✓ Created turbo-test/app.js\nDone! (no permission prompts)',
+        hints: [
+          'Use this flag when you\'re iterating quickly on a project you trust',
+          'Avoid this flag when working with sensitive files or unfamiliar codebases',
+          'You can also set CLAUDE_DANGEROUSLY_SKIP_PERMISSIONS=1 as an environment variable',
+          'If something goes wrong, use git to undo: git checkout . or git reset --hard',
+        ],
+        // Enhanced framework fields
+        duration: {
+          beginner: '10-15 minutes',
+          intermediate: '5 minutes',
+          review: '2 minutes',
+        },
+        difficultyLevel: 2 as const,
+        mentalModel: {
+          coreInsight: 'Permission prompts are training wheels - once you trust the ride, you can take them off for speed',
+          analogy: 'Think of it like a car asking "Are you sure?" before every turn. Helpful when learning, but annoying once you know the route. --dangerously-skip-permissions is like turning off those confirmations.',
+          conceptsExplained: [
+            {
+              term: '--dangerously-skip-permissions',
+              meaning: 'A command-line flag that tells Claude Code to execute actions without asking for confirmation',
+              example: 'claude --dangerously-skip-permissions starts Claude in "turbo mode"',
+            },
+            {
+              term: 'permission prompt',
+              meaning: 'A confirmation dialog that appears before Claude takes an action that modifies your system',
+              example: '"Claude wants to create file src/app.js. Allow? [y/n]"',
+            },
+            {
+              term: 'environment variable',
+              meaning: 'A system setting that affects how programs run, set outside the program itself',
+              example: 'CLAUDE_DANGEROUSLY_SKIP_PERMISSIONS=1 sets turbo mode permanently in your shell',
+            },
+          ],
+          commonMisconceptions: [
+            {
+              misconception: 'This flag is always dangerous and should never be used',
+              reality: 'It\'s safe when you trust the task and have version control. The name is a warning, not a prohibition.',
+            },
+            {
+              misconception: 'Claude will do harmful things without the permission prompts',
+              reality: 'Claude still follows your instructions - it just doesn\'t pause to ask. The behavior is the same, just faster.',
+            },
+            {
+              misconception: 'I should use this flag all the time for maximum speed',
+              reality: 'Use it for trusted, routine tasks. Keep permissions on when exploring unfamiliar code or doing risky operations.',
+            },
+          ],
+        },
+        walkthrough: {
+          overview: 'You\'ll experience the difference between normal mode and turbo mode, then learn when to use each',
+          steps: [
+            {
+              instruction: 'Start Claude Code normally: `claude`',
+              why: 'First, observe the default behavior with permission prompts',
+              expectedOutput: 'Claude starts and waits for your prompt',
+            },
+            {
+              instruction: 'Ask: "Create a file called test-normal.txt with the text \'Hello\'"',
+              why: 'This triggers a permission prompt',
+              expectedOutput: 'Claude asks: "Allow creating test-normal.txt? [y/n]"',
+            },
+            {
+              instruction: 'Type `y` to allow, then exit with `/exit` or Ctrl+C',
+              why: 'Complete the action and exit to try turbo mode',
+              expectedOutput: 'File created, Claude exits',
+            },
+            {
+              instruction: 'Start Claude in turbo mode: `claude --dangerously-skip-permissions`',
+              why: 'Now we\'ll see the faster workflow',
+              expectedOutput: 'Claude starts (same as before)',
+            },
+            {
+              instruction: 'Ask: "Create a file called test-turbo.txt with the text \'Speed\'"',
+              why: 'This time, no permission prompt',
+              expectedOutput: 'Claude immediately creates the file without asking',
+            },
+            {
+              instruction: 'Verify both files exist: `ls test-*.txt` in your terminal',
+              why: 'Confirm both modes work, just with different workflows',
+              expectedOutput: 'test-normal.txt  test-turbo.txt',
+            },
+          ],
+        },
+        troubleshooting: [
+          {
+            symptom: 'Claude still asks for permissions with the flag',
+            meaning: 'The flag might not have been passed correctly',
+            reassurance: 'Command-line flags can be tricky - easy to fix',
+            solution: 'Make sure there\'s a space after "claude" and the flag is spelled exactly: claude --dangerously-skip-permissions',
+            verification: 'Claude should say something like "Running in permissionless mode" or just not ask for confirmations',
+          },
+          {
+            symptom: 'I\'m nervous about Claude running without asking',
+            meaning: 'That\'s a healthy instinct!',
+            reassurance: 'The flag is optional. You can always use normal mode when you want more control.',
+            solution: 'Use git init and commit before using turbo mode, so you can always undo with git checkout .',
+            verification: 'Run git status to confirm you have version control as a safety net',
+          },
+          {
+            symptom: 'Claude made changes I didn\'t want',
+            meaning: 'This can happen in turbo mode if your prompt was ambiguous',
+            reassurance: 'If you have git, nothing is permanent',
+            solution: 'Run git diff to see changes, then git checkout . to undo all changes, or git checkout <file> for specific files',
+            verification: 'Your files are back to the last committed state',
+          },
+        ],
+        verificationProtocol: {
+          checkpoints: [
+            {
+              description: 'You can start Claude in turbo mode',
+              command: 'claude --dangerously-skip-permissions',
+              expectedResult: 'Claude starts without errors',
+              ifDifferent: 'Check the flag spelling and ensure Claude Code is installed',
+            },
+            {
+              description: 'Claude creates files without asking in turbo mode',
+              expectedResult: 'Files appear immediately after your request',
+              ifDifferent: 'Exit and restart with the flag',
+            },
+            {
+              description: 'You have git as a safety net',
+              command: 'git status',
+              expectedResult: 'Shows you\'re in a git repository',
+              ifDifferent: 'Run git init to set up version control first',
+            },
+          ],
+          falsePositives: [
+            {
+              appearance: 'Claude still shows some status messages',
+              explanation: 'Status messages (like "Creating file...") aren\'t permission prompts - those are just progress updates',
+            },
+          ],
+        },
+        practice: {
+          guided: {
+            steps: [
+              {
+                instruction: 'Run `claude --dangerously-skip-permissions`',
+                why: 'Start turbo mode',
+                expectedOutput: 'Claude starts',
+              },
+              {
+                instruction: 'Ask: "Create a project folder called speed-test with an index.html and style.css file"',
+                why: 'Test multi-file creation without prompts',
+                expectedOutput: 'Both files created immediately',
+              },
+              {
+                instruction: 'Exit and check: `ls speed-test/`',
+                why: 'Verify the files were created',
+                expectedOutput: 'index.html  style.css',
+              },
+            ],
+          },
+          supported: {
+            task: 'Create a small website folder with HTML, CSS, and JS files using turbo mode',
+            hints: [
+              'Start with claude --dangerously-skip-permissions',
+              'Ask Claude to create all three files in one request',
+              'Verify with ls after exiting',
+            ],
+            solution: 'claude --dangerously-skip-permissions → "Create a folder called my-site with index.html, style.css, and script.js" → exit → ls my-site/',
+          },
+          independent: {
+            challenge: 'Use turbo mode to scaffold your actual project\'s next feature, then verify everything was created correctly',
+            successCriteria: [
+              'You started Claude with --dangerously-skip-permissions',
+              'Claude created multiple files without permission prompts',
+              'You verified the files exist and contain expected content',
+              'You committed the changes with git',
+            ],
+          },
+        },
+        conceptBridge: {
+          skillAcquired: 'Use --dangerously-skip-permissions for faster Claude Code workflows',
+          connectionToNext: 'Now you can work at full speed with Claude. Next, you\'ll learn about automation to make things happen without you.',
+          futureApplication: 'When doing rapid prototyping or trusted refactoring, turbo mode lets you iterate much faster',
+        },
+      },
     ],
     isSimulated: false,
     requiresProject: true,

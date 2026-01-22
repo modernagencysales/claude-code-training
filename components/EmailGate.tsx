@@ -102,7 +102,7 @@ export default function EmailGate({ children, onEmailSubmit }: EmailGateProps) {
         </form>
 
         <p className="text-xs text-muted-foreground text-center mt-6">
-          Your email is stored locally in your browser. We don&apos;t send marketing emails.
+          We&apos;ll occasionally send helpful tips and updates about Claude Code.
         </p>
       </div>
     </div>

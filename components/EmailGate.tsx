@@ -28,7 +28,7 @@ export default function EmailGate({ children, onEmailSubmit }: EmailGateProps) {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -41,6 +41,13 @@ export default function EmailGate({ children, onEmailSubmit }: EmailGateProps) {
       setError('Please enter a valid email address');
       return;
     }
+
+    // Save to Supabase (fire and forget - don't block UX)
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email.trim() }),
+    }).catch(console.error);
 
     setEmail(email);
     setHasStoredEmail(true);

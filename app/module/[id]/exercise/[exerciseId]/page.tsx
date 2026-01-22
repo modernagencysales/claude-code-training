@@ -10,9 +10,14 @@ import { VirtualFileSystem } from '@/lib/terminal-commands';
 import { validateTerminalExercise, badPromptExamples, promptScenarios, quizQuestions, checkQuizAnswer } from '@/lib/exercises';
 import dynamic from 'next/dynamic';
 import ScopingChat from '@/components/ScopingChat';
+import MentalModelCard from '@/components/MentalModelCard';
+import TroubleshootingPanel from '@/components/TroubleshootingPanel';
+import VerificationChecklist from '@/components/VerificationChecklist';
+import PracticeMode from '@/components/PracticeMode';
 
 const Terminal = dynamic(() => import('@/components/Terminal'), { ssr: false });
 const CodeEditor = dynamic(() => import('@/components/CodeEditor'), { ssr: false });
+const ExerciseWalkthrough = dynamic(() => import('@/components/ExerciseWalkthrough'), { ssr: false });
 
 export default function ExercisePage() {
   const params = useParams();
@@ -36,6 +41,10 @@ export default function ExercisePage() {
   const [currentBadPrompt, setCurrentBadPrompt] = useState(0);
   const [userRewrite, setUserRewrite] = useState('');
   const [showSolution, setShowSolution] = useState(false);
+
+  // Enhanced exercise view state
+  const [activeTab, setActiveTab] = useState<'learn' | 'practice' | 'verify'>('learn');
+  const hasEnhancedContent = !!(exercise?.mentalModel || exercise?.walkthrough || exercise?.troubleshooting);
 
   useEffect(() => {
     const unlocked = isModuleUnlocked(moduleId);
@@ -126,21 +135,153 @@ export default function ExercisePage() {
           </div>
         </div>
 
-        {/* Instructions */}
-        <div className="bg-card rounded-xl p-6 border border-border mb-8">
-          <h2 className="text-lg font-semibold text-foreground mb-4">Instructions</h2>
-          <ol className="space-y-2">
-            {exercise.instructions.map((instruction, index) => (
-              <li key={index} className="flex gap-3 text-muted-foreground">
-                <span className="text-muted-foreground/70 w-6 text-right">{index + 1}.</span>
-                <span>{instruction}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+        {/* Instructions (legacy - shown if no enhanced content) */}
+        {!hasEnhancedContent && (
+          <div className="bg-card rounded-xl p-6 border border-border mb-8">
+            <h2 className="text-lg font-semibold text-foreground mb-4">Instructions</h2>
+            <ol className="space-y-2">
+              {exercise.instructions.map((instruction, index) => (
+                <li key={index} className="flex gap-3 text-muted-foreground">
+                  <span className="text-muted-foreground/70 w-6 text-right">{index + 1}.</span>
+                  <span>{instruction}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {/* Enhanced Exercise UI */}
+        {hasEnhancedContent && (
+          <div className="mb-8">
+            {/* Tab navigation */}
+            <div className="flex gap-1 mb-6 bg-muted rounded-lg p-1">
+              <button
+                onClick={() => setActiveTab('learn')}
+                className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'learn'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Learn
+              </button>
+              <button
+                onClick={() => setActiveTab('practice')}
+                className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'practice'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Practice
+              </button>
+              <button
+                onClick={() => setActiveTab('verify')}
+                className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'verify'
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Verify
+              </button>
+            </div>
+
+            {/* Learn Tab */}
+            {activeTab === 'learn' && (
+              <div className="space-y-6 animate-fade-in">
+                {/* Mental Model */}
+                {exercise.mentalModel && (
+                  <MentalModelCard model={exercise.mentalModel} />
+                )}
+
+                {/* Walkthrough */}
+                {exercise.walkthrough && (
+                  <ExerciseWalkthrough
+                    overview={exercise.walkthrough.overview}
+                    steps={exercise.walkthrough.steps}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Practice Tab */}
+            {activeTab === 'practice' && (
+              <div className="space-y-6 animate-fade-in">
+                {/* Terminal for practice */}
+                {exercise.type === 'terminal' && (
+                  <div className="mb-6">
+                    <Terminal
+                      filesystem={filesystemRef.current}
+                      className="h-[350px]"
+                    />
+                  </div>
+                )}
+
+                {/* Scaffolded practice */}
+                {exercise.practice && (
+                  <PracticeMode practice={exercise.practice} />
+                )}
+
+                {/* Troubleshooting */}
+                {exercise.troubleshooting && exercise.troubleshooting.length > 0 && (
+                  <TroubleshootingPanel issues={exercise.troubleshooting} />
+                )}
+              </div>
+            )}
+
+            {/* Verify Tab */}
+            {activeTab === 'verify' && (
+              <div className="space-y-6 animate-fade-in">
+                {/* Verification checklist */}
+                {exercise.verificationProtocol && (
+                  <VerificationChecklist
+                    protocol={exercise.verificationProtocol}
+                    onComplete={handleMarkComplete}
+                  />
+                )}
+
+                {/* Concept bridge to next */}
+                {exercise.conceptBridge && (
+                  <div className="bg-card rounded-xl border border-border p-6">
+                    <h3 className="font-semibold text-foreground mb-4 flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                      What&apos;s Next
+                    </h3>
+                    <div className="space-y-3 text-sm">
+                      <p className="text-muted-foreground">
+                        <span className="text-foreground font-medium">Skill acquired: </span>
+                        {exercise.conceptBridge.skillAcquired}
+                      </p>
+                      <p className="text-muted-foreground">
+                        <span className="text-foreground font-medium">Connection: </span>
+                        {exercise.conceptBridge.connectionToNext}
+                      </p>
+                      <p className="text-muted-foreground">
+                        <span className="text-foreground font-medium">Real-world application: </span>
+                        {exercise.conceptBridge.futureApplication}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Duration info */}
+                {exercise.duration && (
+                  <div className="bg-muted/30 rounded-lg px-4 py-3 text-sm text-muted-foreground">
+                    <span className="font-medium text-foreground">Estimated time: </span>
+                    {exercise.duration.beginner} (first time) • {exercise.duration.intermediate} (familiar) • {exercise.duration.review} (review)
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Exercise Content based on type */}
-        {exercise.type === 'terminal' && (
+        {/* Terminal exercise - show in legacy mode or when not in enhanced practice tab */}
+        {exercise.type === 'terminal' && (!hasEnhancedContent || activeTab !== 'practice') && !hasEnhancedContent && (
           <div className="mb-8">
             <Terminal
               filesystem={filesystemRef.current}
@@ -159,6 +300,23 @@ export default function ExercisePage() {
                 </span>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Terminal check button for enhanced exercises */}
+        {exercise.type === 'terminal' && hasEnhancedContent && activeTab === 'practice' && (
+          <div className="flex items-center gap-4 mb-8">
+            <button
+              onClick={handleCheckTerminal}
+              className="btn btn-primary px-6 py-2.5"
+            >
+              Check Progress
+            </button>
+            {validationMessage && (
+              <span className={isComplete ? 'text-foreground' : 'text-muted-foreground'}>
+                {validationMessage}
+              </span>
+            )}
           </div>
         )}
 

@@ -20,6 +20,7 @@ export interface ModuleProgress {
 }
 
 export interface UserProgress {
+  email?: string;
   currentModule: number;
   modules: ModuleProgress[];
   projectBrief?: ProjectBrief;
@@ -29,6 +30,7 @@ export interface UserProgress {
 }
 
 const STORAGE_KEY = 'claude-code-training-progress';
+const EMAIL_KEY = 'claude-code-training-email';
 const MAX_FREE_AI_MESSAGES = 10;
 
 export function getProgress(): UserProgress {
@@ -204,4 +206,31 @@ export function getModuleProgress(moduleId: string): ModuleProgress | null {
 export function resetProgress(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(EMAIL_KEY);
+  localStorage.removeItem('claude-api-key');
+}
+
+// Email management
+export function getEmail(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(EMAIL_KEY);
+}
+
+export function setEmail(email: string): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(EMAIL_KEY, email);
+
+  // Also save to progress
+  const progress = getProgress();
+  progress.email = email;
+  saveProgress(progress);
+}
+
+export function hasEmail(): boolean {
+  return !!getEmail();
+}
+
+export function clearEmail(): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(EMAIL_KEY);
 }

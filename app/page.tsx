@@ -2,21 +2,41 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getProgress, UserProgress } from '@/lib/progress';
+import { getProgress, UserProgress, getEmail, hasEmail } from '@/lib/progress';
 import { modules } from '@/lib/curriculum';
 import { ProgressOverview } from '@/components/ProgressBar';
 import { ProjectBriefCompact } from '@/components/ProjectBrief';
+import EmailGate from '@/components/EmailGate';
+import { ResetProgressButton } from '@/components/AccountSettings';
 
 export default function HomePage() {
   const [progress, setProgress] = useState<UserProgress | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setProgress(getProgress());
+    setUserEmail(getEmail());
+    setIsLoaded(true);
   }, []);
 
-  const hasStarted = progress && progress.currentModule > 0;
+  const hasStarted = !!(progress && progress.currentModule > 0);
   const currentModule = modules[progress?.currentModule || 0];
 
+  // Show email gate for new users
+  if (isLoaded && !userEmail) {
+    return <EmailGate onEmailSubmit={(email) => setUserEmail(email)}><div /></EmailGate>;
+  }
+
+  return <HomeContent progress={progress} hasStarted={hasStarted} currentModule={currentModule} userEmail={userEmail} />;
+}
+
+function HomeContent({ progress, hasStarted, currentModule, userEmail }: {
+  progress: UserProgress | null;
+  hasStarted: boolean;
+  currentModule: typeof modules[0] | undefined;
+  userEmail: string | null;
+}) {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -30,14 +50,22 @@ export default function HomePage() {
             </div>
             <span className="font-semibold text-lg tracking-tight">Claude Code Training</span>
           </div>
-          {hasStarted && (
-            <Link
-              href={`/module/${progress?.currentModule || 0}`}
-              className="btn btn-primary px-5 py-2.5 text-sm"
-            >
-              Continue Learning
-            </Link>
-          )}
+          <div className="flex items-center gap-4">
+            {userEmail && (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground hidden sm:inline">{userEmail}</span>
+                <ResetProgressButton />
+              </div>
+            )}
+            {hasStarted && (
+              <Link
+                href={`/module/${progress?.currentModule || 0}`}
+                className="btn btn-primary px-5 py-2.5 text-sm"
+              >
+                Continue Learning
+              </Link>
+            )}
+          </div>
         </nav>
 
         <div className="relative z-10 max-w-3xl mx-auto px-6 py-24 text-center">

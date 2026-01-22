@@ -7,6 +7,7 @@ import { modules } from '@/lib/curriculum';
 import ProjectBrief from '@/components/ProjectBrief';
 import ProgressBar from '@/components/ProgressBar';
 import ModuleNav from '@/components/ModuleNav';
+import AccountSettings from '@/components/AccountSettings';
 
 export default function ProjectPage() {
   const [progress, setProgress] = useState<UserProgress | null>(null);
@@ -145,6 +146,11 @@ export default function ProjectPage() {
               </Link>
             </div>
           )}
+
+          {/* Account Settings */}
+          <div className="mt-12">
+            <AccountSettings />
+          </div>
         </main>
       </div>
     </div>

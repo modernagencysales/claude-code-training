@@ -198,7 +198,7 @@ export class VirtualFileSystem {
         const name = child.type === 'directory' ? `\x1b[34m${child.name}\x1b[0m` : child.name;
         return `${type}${perms} 1 user user ${size} ${date} ${name}`;
       });
-      return { output: lines.join('\n'), success: true };
+      return { output: lines.join('\r\n'), success: true };
     }
 
     const names = entries.map(child =>
@@ -394,10 +394,12 @@ export class VirtualFileSystem {
         };
       }
 
-      outputs.push(node.content || '');
+      // Convert \n to \r\n for proper terminal display
+      const content = (node.content || '').replace(/\r?\n/g, '\r\n');
+      outputs.push(content);
     }
 
-    return { output: outputs.join('\n'), success: true };
+    return { output: outputs.join('\r\n'), success: true };
   }
 
   private echo(args: string[]): CommandResult {
@@ -531,42 +533,33 @@ export class VirtualFileSystem {
   }
 
   private help(): CommandResult {
-    const helpText = `Available commands:
+    const lines = [
+      'Available commands:',
+      '',
+      '  pwd           Print current directory',
+      '  ls [path]     List directory contents',
+      '  cd <path>     Change directory',
+      '  mkdir <name>  Create a directory',
+      '  touch <file>  Create an empty file',
+      '  rm <path>     Remove file or directory',
+      '  cat <file>    Display file contents',
+      '  echo <text>   Display text',
+      '  cp <src> <dst>  Copy file',
+      '  mv <src> <dst>  Move/rename file',
+      '  clear         Clear the screen',
+      '  history       Show command history',
+      '  help          Show this help message',
+      '',
+      'Tips:',
+      '  - Use Up/Down arrows for history',
+    ];
 
-  pwd           Print current directory
-  ls [path]     List directory contents
-                  -l  Long format
-                  -a  Show hidden files
-  cd <path>     Change directory
-                  cd ..  Go up one level
-                  cd ~   Go to home directory
-  mkdir <name>  Create a directory
-                  -p  Create parent directories
-  touch <file>  Create an empty file
-  rm <path>     Remove file or directory
-                  -r  Remove directories recursively
-                  -f  Force (no error if missing)
-  cat <file>    Display file contents
-  echo <text>   Display text
-                  > file   Write to file
-                  >> file  Append to file
-  cp <src> <dst>  Copy file
-  mv <src> <dst>  Move/rename file
-  clear         Clear the screen
-  history       Show command history
-  help          Show this help message
-
-Tips:
-  - Use Tab for autocomplete (coming soon)
-  - Use Up/Down arrows for command history
-  - Paths can be relative or absolute`;
-
-    return { output: helpText, success: true };
+    return { output: lines.join('\r\n'), success: true };
   }
 
   private history(): CommandResult {
     const lines = this.commandHistory.map((cmd, i) => `  ${i + 1}  ${cmd}`);
-    return { output: lines.join('\n'), success: true };
+    return { output: lines.join('\r\n'), success: true };
   }
 
   private resolvePath(pathStr: string): string[] {

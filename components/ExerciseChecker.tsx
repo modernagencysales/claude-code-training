@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Exercise } from '@/lib/curriculum';
 import { VirtualFileSystem } from '@/lib/terminal-commands';
 import { validateTerminalExercise, ExerciseValidation } from '@/lib/exercises';
@@ -204,7 +205,7 @@ export default function ExerciseChecker({
   );
 }
 
-// Simple checkbox version for quick exercises
+// Simple checkbox version for quick exercises - now links to exercise page
 export function ExerciseCheckbox({
   exercise,
   moduleId,
@@ -225,26 +226,20 @@ export function ExerciseCheckbox({
     }
   }, [moduleId, exercise.id]);
 
-  const toggle = () => {
-    const newValue = !isComplete;
-    setIsComplete(newValue);
-    if (newValue) {
-      completeExercise(moduleId, exercise.id);
-    }
-    onChange?.(newValue);
-  };
+  // Check if this exercise has enhanced content
+  const hasEnhancedContent = !!(exercise.mentalModel || exercise.walkthrough || exercise.troubleshooting);
 
   return (
-    <button
-      onClick={toggle}
-      className={`flex items-center gap-3 p-4 rounded-xl transition-colors w-full text-left ${
+    <Link
+      href={`/module/${moduleId}/exercise/${exercise.id}`}
+      className={`flex items-center gap-3 p-4 rounded-xl transition-colors w-full text-left group ${
         isComplete
           ? 'bg-muted/50 border border-border'
           : 'bg-card hover:bg-muted/30 border border-border'
       } ${className}`}
     >
       <div
-        className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-colors ${
+        className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
           isComplete
             ? 'border-foreground bg-foreground'
             : 'border-muted-foreground/50'
@@ -257,11 +252,26 @@ export function ExerciseCheckbox({
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <div className={`font-medium ${isComplete ? 'text-foreground' : 'text-foreground'}`}>
-          {exercise.title}
+        <div className="flex items-center gap-2">
+          <span className={`font-medium ${isComplete ? 'text-foreground' : 'text-foreground'}`}>
+            {exercise.title}
+          </span>
+          {hasEnhancedContent && (
+            <span className="text-xs bg-muted px-1.5 py-0.5 rounded text-muted-foreground">
+              Interactive
+            </span>
+          )}
         </div>
         <div className="text-sm text-muted-foreground truncate">{exercise.description}</div>
       </div>
-    </button>
+      <svg
+        className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors flex-shrink-0"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </Link>
   );
 }

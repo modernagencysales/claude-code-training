@@ -29,7 +29,10 @@ export default function Terminal({
     if (!xtermRef.current) return;
     const path = fsRef.current.getCurrentPathString();
     const shortPath = path.replace('/home/user', '~');
+    // Add extra newline for visual separation, then colorful prompt
     xtermRef.current.write(`\r\n\x1b[32muser@training\x1b[0m:\x1b[34m${shortPath}\x1b[0m$ `);
+    // Scroll to bottom to ensure prompt is visible
+    xtermRef.current.scrollToBottom();
   }, []);
 
   const handleCommand = useCallback((command: string) => {
@@ -61,6 +64,9 @@ export default function Terminal({
 
     writePrompt();
     setHistoryIndex(-1);
+
+    // Ensure terminal stays focused for next input
+    xtermRef.current?.focus();
   }, [onCommand, writePrompt]);
 
   useEffect(() => {
@@ -214,8 +220,10 @@ export default function Terminal({
         className="h-full w-full rounded-lg overflow-hidden"
         onClick={() => xtermRef.current?.focus()}
       />
-      <div className="absolute bottom-2 right-2 text-xs text-gray-500">
-        Type <code className="bg-gray-700 px-1 rounded">help</code> for commands
+      <div className="absolute bottom-2 right-2 text-xs text-gray-500 flex items-center gap-3">
+        <span>Type after the <code className="bg-gray-700 px-1 rounded text-green-400">$</code> prompt</span>
+        <span className="opacity-60">|</span>
+        <span><code className="bg-gray-700 px-1 rounded">↑↓</code> history</span>
       </div>
     </div>
   );

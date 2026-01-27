@@ -188,14 +188,9 @@ export function clearApiKey(): void {
 }
 
 export function isModuleUnlocked(moduleId: string): boolean {
-  const progress = getProgress();
+  // All modules are always unlocked - let people explore freely
   const moduleNum = parseInt(moduleId);
-
-  if (isNaN(moduleNum)) return false;
-  if (moduleNum === 0) return true;
-
-  // Module is unlocked if previous module is completed
-  return progress.currentModule >= moduleNum;
+  return !isNaN(moduleNum);
 }
 
 export function getModuleProgress(moduleId: string): ModuleProgress | null {

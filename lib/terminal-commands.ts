@@ -534,24 +534,8 @@ export class VirtualFileSystem {
 
   private help(): CommandResult {
     const lines = [
-      'Available commands:',
-      '',
-      '  pwd           Print current directory',
-      '  ls [path]     List directory contents',
-      '  cd <path>     Change directory',
-      '  mkdir <name>  Create a directory',
-      '  touch <file>  Create an empty file',
-      '  rm <path>     Remove file or directory',
-      '  cat <file>    Display file contents',
-      '  echo <text>   Display text',
-      '  cp <src> <dst>  Copy file',
-      '  mv <src> <dst>  Move/rename file',
-      '  clear         Clear the screen',
-      '  history       Show command history',
-      '  help          Show this help message',
-      '',
-      'Tips:',
-      '  - Use Up/Down arrows for history',
+      'Commands: pwd ls cd mkdir touch rm cat clear',
+      'Try: pwd | ls | cd documents | cat readme.txt',
     ];
 
     return { output: lines.join('\r\n'), success: true };

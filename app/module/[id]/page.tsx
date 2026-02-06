@@ -421,6 +421,52 @@ export default function ModulePage() {
 
             {moduleId === '7' && (
               <div>
+                <h2>Why Agent Teams Change Everything</h2>
+                <p>
+                  Most people use Claude Code one task at a time. That&apos;s like hiring one freelancer
+                  for a 10-person job. With Opus 4.6, you can run multiple Claude Code instances
+                  simultaneously - each working on a different piece of your project.
+                </p>
+                <p>
+                  <strong>Real example:</strong> Building a GTM system with webhook handling, reply classification,
+                  and database schema. Instead of building each piece sequentially (~2.5 hours), three agents
+                  built all three pieces in parallel (~20 minutes for Phase 1). The key rule: each agent
+                  works on <strong>independent files</strong> with no overlap.
+                </p>
+
+                <h2>The Divide and Conquer Workflow</h2>
+                <p>Agent teams only work when tasks are truly independent. Here&apos;s the 3-step process:</p>
+                <ol>
+                  <li><strong>Map dependencies:</strong> For each task, ask &quot;What must exist before I can do this?&quot;</li>
+                  <li><strong>Group into phases:</strong> Phase 1 = no dependencies (all parallel). Phase 2 = depends on Phase 1 (parallel within phase). Phase 3 = depends on Phase 2.</li>
+                  <li><strong>Execute phases:</strong> Run each phase with agent teams, wait for completion, then start the next phase.</li>
+                </ol>
+
+                <h2>Prompts Optimized for 4.6</h2>
+                <p>Three patterns that get the best results from Opus 4.6:</p>
+                <ul>
+                  <li><strong>System Context:</strong> Front-load 2-3 sentences about your project before the request. Gives Claude the big picture.</li>
+                  <li><strong>Constraint-First:</strong> Tell Claude what NOT to change before what TO change. Protects existing code.</li>
+                  <li><strong>Multi-File Coordination:</strong> Reference related files Claude isn&apos;t editing (types, helpers, schemas) so it writes compatible code.</li>
+                </ul>
+
+                <h2>Effort Levels</h2>
+                <p>Match the AI&apos;s effort to the task&apos;s complexity:</p>
+                <ul>
+                  <li><strong>High effort:</strong> Complex logic, error handling, multi-step algorithms, edge cases. Claude takes longer but produces more thorough code.</li>
+                  <li><strong>Medium effort:</strong> Standard features, CRUD operations, typical UI components. Good balance of speed and quality.</li>
+                  <li><strong>Low effort:</strong> Config changes, renaming, env vars, boilerplate. Fast and straightforward.</li>
+                </ul>
+                <p>
+                  <strong>Rule of thumb:</strong> If a task has &quot;retry logic&quot;, &quot;error handling&quot;, or &quot;edge cases&quot;
+                  it&apos;s high effort. If it&apos;s mostly wiring things together, it&apos;s medium. If it could be
+                  done with find-and-replace, it&apos;s low.
+                </p>
+              </div>
+            )}
+
+            {moduleId === '8' && (
+              <div>
                 <h2>What Can Be Automated?</h2>
                 <p>Good candidates for automation:</p>
                 <ul>
@@ -439,7 +485,7 @@ export default function ModulePage() {
               </div>
             )}
 
-            {moduleId === '8' && (
+            {moduleId === '9' && (
               <div>
                 <h2>Hosting Options</h2>
                 <ul>
@@ -462,7 +508,7 @@ export default function ModulePage() {
               </div>
             )}
 
-            {moduleId === '9' && (
+            {moduleId === '10' && (
               <div>
                 <h2>Finish Strong!</h2>
                 <p>

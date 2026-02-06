@@ -338,6 +338,56 @@ export const quizQuestions: Record<string, QuizQuestion[]> = {
       explanation: 'Breaking a large project into smaller tasks helps you understand dependencies (what needs to happen first) and makes each piece achievable.',
     },
   ],
+  '7': [ // Module 7: Opus 4.6 Power Features
+    {
+      id: '7-q1',
+      question: 'What is the most important rule when running agent teams (multiple Claude Code instances in parallel)?',
+      options: [
+        'Each agent must use a different programming language',
+        'Each agent must work on independent tasks with no shared files',
+        'You must start all agents at exactly the same time',
+        'You need a special license for multiple agents',
+      ],
+      correctIndex: 1,
+      explanation: 'Agent teams work by having each agent handle independent files. If two agents try to edit the same file, they\'ll create conflicts. The golden rule: no shared files between parallel agents.',
+    },
+    {
+      id: '7-q2',
+      question: 'What determines whether a task goes in Phase 1 vs. Phase 2 of a divide-and-conquer workflow?',
+      options: [
+        'How difficult the task is',
+        'How long the task takes',
+        'Whether the task depends on output from other tasks',
+        'How many files the task creates',
+      ],
+      correctIndex: 2,
+      explanation: 'Phases are about dependencies, not difficulty. Phase 1 contains tasks with no dependencies. Phase 2 contains tasks that need Phase 1\'s output. A simple task can be in Phase 2 if it depends on a Phase 1 result.',
+    },
+    {
+      id: '7-q3',
+      question: 'When should you use the Constraint-First prompt pattern?',
+      options: [
+        'When creating a brand new project from scratch',
+        'When you need to protect existing code while making changes',
+        'When writing documentation',
+        'When deploying to production',
+      ],
+      correctIndex: 1,
+      explanation: 'Constraint-First (telling Claude what NOT to change before what TO change) is ideal when modifying existing code. It prevents Claude from accidentally refactoring or breaking things that should stay the same.',
+    },
+    {
+      id: '7-q4',
+      question: 'Which task would benefit MOST from high effort?',
+      options: [
+        'Adding an environment variable to the config',
+        'Renaming a function across three files',
+        'Building a complex pipeline with retry logic and failure handling',
+        'Updating the README with a new section',
+      ],
+      correctIndex: 2,
+      explanation: 'Complex pipelines with retry logic and failure handling have many edge cases and require careful error handling. High effort produces more thorough, well-tested code for these scenarios. Simple tasks like env vars and README updates work fine with low effort.',
+    },
+  ],
   '5': [ // Module 5: Prompting
     {
       id: '5-q1',
@@ -374,6 +424,18 @@ export const quizQuestions: Record<string, QuizQuestion[]> = {
       ],
       correctIndex: 2,
       explanation: 'This prompt doesn\'t say where to add error handling, what errors to handle, or how to handle them (show message? retry? log?). Be specific!',
+    },
+    {
+      id: '5-q4',
+      question: 'What is the Constraint-First prompt pattern?',
+      options: [
+        'Writing the shortest possible prompt',
+        'Telling Claude what NOT to do before telling it what TO do',
+        'Only using Claude for small tasks',
+        'Adding constraints to your project\'s database',
+      ],
+      correctIndex: 1,
+      explanation: 'The Constraint-First pattern means you tell Claude what to leave alone (e.g., "Do NOT modify the existing API routes") before telling it what to change. This prevents Claude from accidentally breaking existing code while making changes.',
     },
   ],
 };

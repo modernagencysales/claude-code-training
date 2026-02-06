@@ -1653,7 +1653,7 @@ export const modules: Module[] = [
         },
         conceptBridge: {
           skillAcquired: 'Use --dangerously-skip-permissions for faster Claude Code workflows',
-          connectionToNext: 'Now you can work at full speed with Claude. Next, you\'ll learn about automation to make things happen without you.',
+          connectionToNext: 'Now you can work at full speed with Claude. Next, you\'ll unlock Opus 4.6 power features - agent teams, divide-and-conquer workflows, and effort levels.',
           futureApplication: 'When doing rapid prototyping or trusted refactoring, turbo mode lets you iterate much faster',
         },
       },
@@ -1663,6 +1663,304 @@ export const modules: Module[] = [
   },
   {
     id: '7',
+    title: 'Opus 4.6 Power Features',
+    subtitle: 'Agent Teams & Advanced Workflows',
+    duration: '2 hours',
+    description: 'Unlock the full potential of Claude Code with Opus 4.6. Learn to run multiple agents in parallel, design divide-and-conquer workflows, write optimized prompts, and match effort levels to task complexity.',
+    learningObjectives: [
+      'Set up and run agent teams (multiple agents in parallel)',
+      'Design divide-and-conquer workflows with dependency phases',
+      'Write prompts using System Context, Constraint-First, and Multi-File patterns',
+      'Match effort levels to task complexity',
+      'Apply these to a real multi-part build',
+    ],
+    exercises: [
+      {
+        id: '7-1',
+        title: 'Your First Agent Team',
+        description: 'Run multiple Claude Code agents in parallel on independent tasks',
+        type: 'project',
+        context: 'Most people use Claude Code one task at a time, like hiring a single freelancer. But Opus 4.6 can run multiple agents simultaneously - like having a full team. The key rule: each agent must work on independent files so they don\'t conflict.',
+        instructions: [
+          'Open 3 separate terminal windows (or tabs) on your computer',
+          'Navigate each terminal to your project folder',
+          'In terminal 1, start Claude Code and give it Task A (e.g., "Create a webhook endpoint in src/webhooks.ts that accepts POST requests and logs the body")',
+          'IMMEDIATELY switch to terminal 2, start Claude Code and give it Task B (e.g., "Create a utility function in src/utils/classifier.ts that takes a string and returns \'positive\', \'negative\', or \'neutral\'")',
+          'IMMEDIATELY switch to terminal 3, start Claude Code and give it Task C (e.g., "Create a database schema file in src/schema.sql with tables for leads and messages")',
+          'Watch all three work simultaneously - you just 3x\'d your output!',
+          'Wait for all three to complete, then verify each file was created correctly',
+          'Check for conflicts: make sure no two agents touched the same file',
+        ],
+        expectedOutcome: 'Three independent pieces of your project built simultaneously by parallel agents.',
+        successCriteria: [
+          'You ran 3 Claude Code instances at the same time',
+          'Each agent worked on a different file/task',
+          'No file conflicts occurred between agents',
+          'All three outputs are correct and usable',
+        ],
+        exampleOutput: 'Terminal 1: Created src/webhooks.ts (webhook endpoint)\nTerminal 2: Created src/utils/classifier.ts (classifier function)\nTerminal 3: Created src/schema.sql (database schema)\nAll three completed in ~2 minutes total (vs ~6 minutes sequential)',
+        hints: [
+          'The golden rule: each agent works on DIFFERENT files',
+          'If two agents need to edit the same file, they\'re not independent - run them sequentially',
+          'Your computer may slow down with 3 agents - that\'s normal, they\'re CPU-intensive',
+          'Start with just 2 agents if 3 feels overwhelming',
+        ],
+        duration: {
+          beginner: '20-30 minutes',
+          intermediate: '10-15 minutes',
+          review: '5 minutes',
+        },
+        difficultyLevel: 2 as const,
+        mentalModel: {
+          coreInsight: 'Agent teams = parallel departments, not a solo freelancer. Each agent handles one independent piece.',
+          analogy: 'Think of building a house. One crew pours the foundation while another frames the walls and a third does electrical. They work simultaneously because they\'re in different areas. If two crews tried to work in the same room at the same time, they\'d get in each other\'s way.',
+          conceptsExplained: [
+            {
+              term: 'agent team',
+              meaning: 'Multiple Claude Code instances running at the same time, each on a different task',
+              example: 'Three terminal windows, each with Claude Code working on a separate file',
+            },
+            {
+              term: 'independent tasks',
+              meaning: 'Tasks that don\'t depend on each other and don\'t touch the same files',
+              example: 'Building a webhook handler and a CSS stylesheet are independent - they don\'t share files',
+            },
+            {
+              term: 'file conflict',
+              meaning: 'When two agents try to modify the same file, causing overwrites or merge issues',
+              example: 'Both agents editing src/index.ts would conflict. Give them separate files instead.',
+            },
+          ],
+          commonMisconceptions: [
+            {
+              misconception: 'You need a special tool or subscription for agent teams',
+              reality: 'Just open multiple terminals and run Claude Code in each one. That\'s it.',
+            },
+            {
+              misconception: 'More agents = always faster',
+              reality: 'Only if the tasks are truly independent. Dependent tasks must run sequentially.',
+            },
+          ],
+        },
+        walkthrough: {
+          overview: 'You\'ll open three terminals, give each an independent task, and watch them work in parallel',
+          steps: [
+            {
+              instruction: 'Open your first terminal and navigate to your project folder',
+              why: 'Each agent needs to be in the same project directory',
+              expectedOutput: 'You\'re in your project folder (check with pwd)',
+            },
+            {
+              instruction: 'Start Claude Code and give it a task that creates a NEW file',
+              why: 'New files are safest for parallel work - no merge conflicts',
+              expectedOutput: 'Claude starts working on the task',
+            },
+            {
+              instruction: 'Without waiting, open a second terminal, navigate to the project, and start another Claude Code with a different task',
+              why: 'The key is starting them simultaneously, not waiting for one to finish',
+              expectedOutput: 'Two Claude instances running at the same time',
+            },
+            {
+              instruction: 'Repeat with a third terminal and task',
+              why: 'Three parallel agents = roughly 3x throughput',
+              expectedOutput: 'Three Claude instances all working simultaneously',
+            },
+            {
+              instruction: 'Wait for all three to finish and verify the results',
+              why: 'Check that all files were created and no conflicts occurred',
+              expectedOutput: 'Three new files, all correct, no overwrites',
+            },
+          ],
+        },
+        troubleshooting: [
+          {
+            symptom: 'Computer is very slow with 3 agents running',
+            meaning: 'Claude Code uses CPU and memory for each instance',
+            reassurance: 'This is normal - your computer is doing a lot of work',
+            solution: 'Try 2 agents instead of 3, or close other applications to free up resources',
+            verification: 'Agents complete successfully, just a bit slower',
+          },
+          {
+            symptom: 'Two agents modified the same file',
+            meaning: 'The tasks weren\'t truly independent',
+            reassurance: 'This is a learning moment - dependency detection is a key skill',
+            solution: 'Use git diff to see what changed, then manually resolve. Next time, ensure tasks touch different files.',
+            verification: 'git status shows clean state after resolving',
+          },
+          {
+            symptom: 'One agent finished much faster than others',
+            meaning: 'Tasks were different sizes - that\'s fine',
+            reassurance: 'Not all tasks take the same time. The goal is parallel execution, not synchronized completion.',
+            solution: 'You can give the fast agent another task while waiting for the others',
+            verification: 'All tasks eventually complete successfully',
+          },
+        ],
+        verificationProtocol: {
+          checkpoints: [
+            {
+              description: 'All three files exist',
+              command: 'ls src/webhooks.ts src/utils/classifier.ts src/schema.sql',
+              expectedResult: 'All three files listed',
+              ifDifferent: 'Check which agent failed and re-run its task',
+            },
+            {
+              description: 'No file conflicts',
+              command: 'git status',
+              expectedResult: 'Clean working tree or only new untracked files',
+              ifDifferent: 'If you see merge conflicts, the tasks weren\'t independent enough',
+            },
+          ],
+          falsePositives: [
+            {
+              appearance: 'Agents finished at different times',
+              explanation: 'Expected - different tasks take different amounts of time',
+            },
+          ],
+        },
+        practice: {
+          guided: {
+            steps: [
+              {
+                instruction: 'Open 2 terminals and navigate to your project',
+                why: 'Start with 2 agents before scaling to 3',
+                expectedOutput: 'Two terminals, both in your project folder',
+              },
+              {
+                instruction: 'Agent 1: "Create src/hello.ts that exports a function sayHello(name: string)"',
+                why: 'Simple, isolated task',
+                expectedOutput: 'File created with the function',
+              },
+              {
+                instruction: 'Agent 2 (immediately): "Create src/goodbye.ts that exports a function sayGoodbye(name: string)"',
+                why: 'Parallel task on a different file',
+                expectedOutput: 'Both files created simultaneously',
+              },
+            ],
+          },
+          supported: {
+            task: 'Use 3 agents to build three components of a feature simultaneously',
+            hints: [
+              'Plan three tasks that each create a NEW file',
+              'Make sure no two tasks reference the same file',
+              'Start all three as quickly as possible',
+            ],
+            solution: 'Agent 1: create route handler, Agent 2: create utility function, Agent 3: create type definitions - all in separate files',
+          },
+          independent: {
+            challenge: 'Identify 3 independent tasks from your project and execute them in parallel with agent teams',
+            successCriteria: [
+              'All three tasks completed successfully',
+              'No file conflicts between agents',
+              'Total time was significantly less than running sequentially',
+            ],
+          },
+        },
+        conceptBridge: {
+          skillAcquired: 'Run multiple Claude Code agents in parallel on independent tasks',
+          connectionToNext: 'Now that you can run agent teams, you\'ll learn to plan WHICH tasks to parallelize using divide-and-conquer',
+          futureApplication: 'Every multi-file feature you build can be broken into parallel agent tasks for faster completion',
+        },
+      },
+      {
+        id: '7-2',
+        title: 'Divide and Conquer',
+        description: 'Map task dependencies, group into phases, and execute with agent teams',
+        type: 'project',
+        context: 'Agent teams are powerful, but only if you run the RIGHT tasks in parallel. Some tasks depend on others - you can\'t build the UI for data that doesn\'t exist yet. Divide-and-conquer means: map dependencies, group independent tasks into phases, then execute each phase with agent teams.',
+        instructions: [
+          'Pick a feature or mini-project with 5+ tasks',
+          'Write each task on a separate line',
+          'For each task, ask: "What must exist BEFORE I can do this?" Draw arrows showing dependencies',
+          'Group tasks into phases: Phase 1 = tasks with NO dependencies (can all run in parallel), Phase 2 = tasks that depend only on Phase 1 output, Phase 3 = tasks that depend on Phase 2, etc.',
+          'Execute Phase 1 using agent teams (all tasks in parallel)',
+          'Wait for ALL Phase 1 tasks to complete',
+          'Execute Phase 2 using agent teams',
+          'Continue until all phases are done',
+          'Compare: how long did this take vs. doing everything one at a time?',
+        ],
+        expectedOutcome: 'A multi-part feature built in phases, with parallel execution within each phase.',
+        successCriteria: [
+          'You\'ve mapped task dependencies clearly',
+          'Tasks are grouped into 2+ phases',
+          'Each phase was executed with parallel agents where possible',
+          'The final result works correctly (all pieces integrate)',
+        ],
+        exampleOutput: 'Real example from building a GTM system (~65 min vs ~2.5 hrs sequential):\n\nPhase 1 (parallel, ~20 min):\n  - Agent 1: Webhook endpoint (src/webhooks/heyreach.ts)\n  - Agent 2: Reply classifier (src/utils/reply-classifier.ts)\n  - Agent 3: Database schema (src/schema/pipeline.sql)\n\nPhase 2 (parallel, ~25 min, depends on Phase 1):\n  - Agent 1: Pipeline trigger that uses webhook + classifier + schema\n  - Agent 2: Dashboard UI that reads from the schema\n\nPhase 3 (sequential, ~20 min, depends on Phase 2):\n  - Cold email integration that ties into the pipeline',
+        hints: [
+          'Dependencies are about DATA, not difficulty. "Phase 1" doesn\'t mean "easiest"',
+          'If Task B reads a file that Task A creates, B depends on A',
+          'Draw it out on paper first - visual dependency mapping is clearer than mental mapping',
+          'Phases should be as wide as possible (max parallel tasks) and as few as possible (min phases)',
+        ],
+      },
+      {
+        id: '7-3',
+        title: 'Writing 4.6-Optimized Prompts',
+        description: 'Learn three prompt patterns that get the best results from Opus 4.6',
+        type: 'project',
+        context: 'Opus 4.6 responds differently to prompt structure than older models. Three patterns consistently produce better results: System Context (front-load project knowledge), Constraint-First (say what NOT to do before what TO do), and Multi-File Coordination (tell Claude about related files it can\'t see).',
+        instructions: [
+          'PATTERN 1 - System Context: Start your prompt with 2-3 sentences about your project before asking for anything. Example: "This is a Next.js 16 app using Supabase for auth and Trigger.dev for background jobs. The webhook handler at src/webhooks/heyreach.ts receives LinkedIn reply data. Add retry logic with exponential backoff when the classifier API call fails."',
+          'PATTERN 2 - Constraint-First: Tell Claude what NOT to change before telling it what TO change. Example: "Do NOT modify the existing handleReply function signature or the database schema. DO add a new retryClassification function in the same file that wraps the API call with 3 retries and exponential backoff."',
+          'PATTERN 3 - Multi-File Coordination: When Claude needs to know about files it isn\'t editing, mention them. Example: "The types are defined in src/types/pipeline.ts (LeadRecord has fields: id, email, status, lastReply). The database helper is at src/db/queries.ts (updateLeadStatus takes id and newStatus). Create a new file src/services/pipeline.ts that uses both."',
+          'Pick one task from your project',
+          'Write the same task using all 3 patterns',
+          'Choose the best version and run it in Claude Code',
+          'Compare the output quality to how you would have prompted before this exercise',
+        ],
+        expectedOutcome: 'Three versions of the same prompt using different patterns, with one executed in Claude Code.',
+        successCriteria: [
+          'You\'ve written a System Context version of your prompt',
+          'You\'ve written a Constraint-First version of your prompt',
+          'You\'ve written a Multi-File Coordination version of your prompt',
+          'You\'ve run the best version and gotten a good result',
+        ],
+        exampleOutput: 'System Context prompt: "This is a GTM system that processes LinkedIn replies..."\nConstraint-First prompt: "Do NOT change the webhook handler. DO add..."\nMulti-File prompt: "Types are in src/types.ts, DB helper is in src/db.ts. Create..."',
+        hints: [
+          'System Context works best for new features in existing projects',
+          'Constraint-First works best when modifying code that must keep working',
+          'Multi-File works best when the new code depends on existing types or functions',
+          'You can combine patterns! System Context + Constraint-First is very powerful',
+        ],
+      },
+      {
+        id: '7-4',
+        title: 'Effort Levels',
+        description: 'Learn when to use high, medium, and low effort for different tasks',
+        type: 'project',
+        context: 'Not every task needs the same level of AI effort. Complex logic deserves high effort (thorough, careful output). Simple changes work fine with low effort (fast, less thorough). Matching effort to task complexity saves time and money.',
+        instructions: [
+          'Understand the three effort levels:',
+          '  HIGH effort: Complex logic, error handling, multi-step algorithms, anything with edge cases. Claude takes longer but produces more thorough, well-tested code.',
+          '  MEDIUM effort: Standard features, CRUD operations, typical UI components. Good balance of speed and quality.',
+          '  LOW effort: Simple changes, config updates, renaming, adding env vars, boilerplate. Claude responds quickly with straightforward output.',
+          'Look at your project\'s remaining tasks',
+          'Label each task as HIGH, MEDIUM, or LOW effort',
+          'Pick one task and run it at different effort levels (if your Claude Code version supports it, or observe the difference in prompt detail)',
+          'Compare: Which effort level produced the best result for that specific task?',
+          'Rule of thumb: when in doubt, start with medium effort',
+        ],
+        expectedOutcome: 'Your remaining tasks are labeled by effort level, and you understand when to use each.',
+        successCriteria: [
+          'You\'ve categorized at least 5 tasks by effort level',
+          'You can explain why each task got its effort level',
+          'You\'ve observed the difference in output quality between effort levels',
+          'You have a personal rule of thumb for choosing effort levels',
+        ],
+        exampleOutput: 'GTM system task classification:\n- HIGH: Reply classifier with retry logic and failure handling (complex logic, edge cases)\n- HIGH: Pipeline trigger that orchestrates webhook → classify → store → notify (multi-step)\n- MEDIUM: Dashboard page showing pipeline records (standard CRUD UI)\n- LOW: Add HEYREACH_API_KEY to environment variables (simple config)\n- LOW: Update README with new webhook endpoint docs (boilerplate)',
+        hints: [
+          'If a task has the word "logic", "algorithm", or "handle errors" it\'s probably HIGH',
+          'If a task is mostly wiring things together, it\'s probably MEDIUM',
+          'If a task could be done with find-and-replace, it\'s probably LOW',
+          'Over-efforting simple tasks wastes time. Under-efforting complex tasks produces bugs.',
+        ],
+      },
+    ],
+    isSimulated: false,
+    requiresProject: true,
+  },
+  {
+    id: '8',
     title: 'Automation Basics',
     subtitle: 'Making Things Happen Automatically',
     duration: '1-2 hours',
@@ -1675,7 +1973,7 @@ export const modules: Module[] = [
     ],
     exercises: [
       {
-        id: '7-1',
+        id: '8-1',
         title: 'Automation Audit',
         description: 'Identify what parts of your project could run automatically',
         type: 'project',
@@ -1704,7 +2002,7 @@ export const modules: Module[] = [
         ],
       },
       {
-        id: '7-2',
+        id: '8-2',
         title: 'Build an Automation',
         description: 'Implement one automation using n8n, Make, or Zapier',
         type: 'project',
@@ -1742,7 +2040,7 @@ export const modules: Module[] = [
     requiresProject: true,
   },
   {
-    id: '8',
+    id: '9',
     title: 'Hosting & Deployment',
     subtitle: 'Going Live on the Internet',
     duration: '1-2 hours',
@@ -1755,7 +2053,7 @@ export const modules: Module[] = [
     ],
     exercises: [
       {
-        id: '8-1',
+        id: '9-1',
         title: 'Choose Your Hosting',
         description: 'Select the right platform for your specific project',
         type: 'project',
@@ -1784,7 +2082,7 @@ export const modules: Module[] = [
         ],
       },
       {
-        id: '8-2',
+        id: '9-2',
         title: 'Deploy to Production',
         description: 'Get your project live on a real URL',
         type: 'project',
@@ -1822,7 +2120,7 @@ export const modules: Module[] = [
     requiresProject: true,
   },
   {
-    id: '9',
+    id: '10',
     title: 'Graduation Project',
     subtitle: 'Finishing Strong',
     duration: '2+ hours',
@@ -1835,7 +2133,7 @@ export const modules: Module[] = [
     ],
     exercises: [
       {
-        id: '9-1',
+        id: '10-1',
         title: 'Complete All Tasks',
         description: 'Finish every task on your list',
         type: 'project',
@@ -1846,7 +2144,7 @@ export const modules: Module[] = [
         ],
       },
       {
-        id: '9-2',
+        id: '10-2',
         title: 'Documentation',
         description: 'Write a README for your project',
         type: 'project',
@@ -1857,7 +2155,7 @@ export const modules: Module[] = [
         ],
       },
       {
-        id: '9-3',
+        id: '10-3',
         title: 'Graduation',
         description: 'Celebrate your completed project!',
         type: 'project',

@@ -122,7 +122,7 @@ function HomeContent({ progress, hasStarted, currentModule, userEmail }: {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-card rounded-2xl p-8 border border-border card-hover">
             <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-5">
               <svg className="w-6 h-6 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -152,6 +152,19 @@ function HomeContent({ progress, hasStarted, currentModule, userEmail }: {
           <div className="bg-card rounded-2xl p-8 border border-border card-hover">
             <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-5">
               <svg className="w-6 h-6 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold mb-3">Agent Teams</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Run multiple Claude Code agents in parallel. Use divide-and-conquer
+              workflows to build features 3x faster.
+            </p>
+          </div>
+
+          <div className="bg-card rounded-2xl p-8 border border-border card-hover">
+            <div className="w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-5">
+              <svg className="w-6 h-6 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
             </div>
@@ -170,7 +183,7 @@ function HomeContent({ progress, hasStarted, currentModule, userEmail }: {
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4 tracking-tight">The Curriculum</h2>
             <p className="text-muted-foreground max-w-lg mx-auto">
-              10 modules that take you from zero to deploying your own tool.
+              11 modules that take you from zero to deploying your own tool.
               Each module builds on the last.
             </p>
           </div>
